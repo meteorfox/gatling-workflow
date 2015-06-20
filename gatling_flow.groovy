@@ -11,7 +11,12 @@ for (int i = 0; i < 2; i++) {
 	distributedJobs["gatlingLoadClient${i}"] = {
 		node('slave') {
 			sh 'rm -rf ./*'
-			unarchive mapping: ['./*' : '.']
+			unarchive mapping: [
+				'./project/' : '.',
+				'./src/' : '.',
+				'./build.sbt' : '.',
+				'./loadbalanced_endpoints_workload.sh' : '.'
+			]
 			sh "./loadbalanced_endpoints_workload.sh"
 		}
 	}
