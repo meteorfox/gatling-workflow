@@ -1,13 +1,14 @@
+stage name: 'Gatling Setup', concurrency: 1
 
 node('slave') {
 	git url: 'https://github.com/meteorfox/gatling-benchmarking.git'
 	archive 'build.sbt, loadbalanced_endpoints_workload_debug.sh, project/, src/'
 	env.PATH = "${tool 'SBT'}/bin:${env.PATH}"
-	stage 'Performance'
 }
 
+def concurrentJobs = 2
 def distributedJobs = [:]
-for (int i = 0; i < 2; i++) {
+for (int i = 0; i < concurrentJobs; i++) {
 	distributedJobs["gatlingLoadClient${i}"] = {
 		node('slave') {
 			sh 'rm -rf ./*'
@@ -24,8 +25,10 @@ for (int i = 0; i < 2; i++) {
 	}
 }
 
+stage name: 'Performance', concurrency: concurrentJobs
+
 parallel distributedJobs
 
-node('slave') {
+node('master') {
   	unarchive mapping: ['target/' : '.']
 }
