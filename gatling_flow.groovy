@@ -26,4 +26,6 @@ for (int i = 0; i < 2; i++) {
 
 parallel distributedJobs
 
-unarchive mapping: ['target/' : '.']
+node('slave') {
+  	unarchive mapping: ['target/' : '.']
+}
