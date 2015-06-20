@@ -30,6 +30,7 @@ stage name: 'Performance', concurrency: concurrentJobs
 parallel distributedJobs
 
 node('master') {
+	env.PATH = "${tool 'SBT'}/bin:${env.PATH}"
 	sh 'rm -rf ./*'
   	unarchive mapping: ['target/' : '.']
   	sh 'mkdir -p target/gatling/distributed-results'
