@@ -17,6 +17,7 @@ for (int i = 0; i < 2; i++) {
 				'build.sbt' : '.',
 				'loadbalanced_endpoints_workload.sh' : '.'
 			]
+			sh "chmod +x ./loadbalanced_endpoints_workload.sh"
 			sh "./loadbalanced_endpoints_workload.sh"
 		}
 	}
