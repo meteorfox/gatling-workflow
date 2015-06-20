@@ -1,7 +1,7 @@
 
 node('slave') {
 	git url: 'https://github.com/meteorfox/gatling-benchmarking.git'
-	env.PATH = "${tool 'SBT'}":${env.PATH}
+	env.PATH = "${tool 'SBT'}:${env.PATH}"
 
 	stage 'Performance'
 }
