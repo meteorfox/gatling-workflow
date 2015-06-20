@@ -38,8 +38,9 @@ node('master') {
   		'build.sbt' : '.',
   		'src/' : '.'
   	]
-  	sh 'mkdir -p target/gatling/distributed-results/'
-  	sh 'num=0; for i in `find -name "*simulation.log"`; do num=$(( num+1 )) ; cp $i target/gatling/distributed-results/simulation$num.log ; done'
-  	//sh 'sbt generateReport'
-  	archive 'target/gatling/distributed-results/'
+  	def nowMillis = System.currentTimeMillis()
+  	sh "mkdir -p target/gatling/distributedresults-${nowMillis}/"
+  	sh "num=0; for i in `find -name \"*simulation.log\"`; do num=$(( num+1 )) ; cp $i target/gatling/distributed-${nowMillis}/simulation$num.log ; done"
+  	sh "sbt 'generateReport distributedresults-${nowMillis}'"
+  	archive "target/gatling/distributedresults-${nowMillis}/"
 }
