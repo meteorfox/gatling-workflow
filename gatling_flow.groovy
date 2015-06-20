@@ -40,7 +40,13 @@ node('master') {
   	]
   	def nowMillis = System.currentTimeMillis()
   	sh "mkdir -p target/gatling/distributedresults-${nowMillis}/"
-  	sh "num=0; for i in `find -name \"*simulation.log\"`; do num=$(( num+1 )) ; cp $i target/gatling/distributed-${nowMillis}/simulation$num.log ; done"
+  	def cmd = 'num=0; \
+  	  for i in `find -name "*simulation.log"`; \
+  	  do num=$(( num+1 )) ; \
+  	    cp $i \
+  	       target/gatling/distributed-' + nowMillis + '/simulation$num.log ;\
+  	  done'
+  	sh "${cmd}"
   	sh "sbt 'generateReport distributedresults-${nowMillis}'"
   	archive "target/gatling/distributedresults-${nowMillis}/"
 }
