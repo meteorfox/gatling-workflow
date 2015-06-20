@@ -20,7 +20,7 @@ for (int i = 0; i < concurrentJobs; i++) {
 			]
 			sh "chmod +x ./loadbalanced_endpoints_workload_debug.sh"
 			sh "./loadbalanced_endpoints_workload_debug.sh"
-			archive 'target/'
+			archive 'target/, project/, build.sbt, src/'
 		}
 	}
 }
@@ -32,7 +32,12 @@ parallel distributedJobs
 node('master') {
 	env.PATH = "${tool 'SBT'}/bin:${env.PATH}"
 	sh 'rm -rf ./*'
-  	unarchive mapping: ['target/' : '.']
+  	unarchive mapping: [
+  		'target/' : '.',
+  		'project/' : '.',
+  		'build.sbt' : '.',
+  		'src/' : '.'
+  	]
   	sh 'mkdir -p target/gatling/distributed-results'
   	sh 'num=0; for i in `find -name "*simulation.log"`; do num=$(( num+1 )) ; temp=$(basename $i) cp $i target/gatling/distributed-results/${temp%.log}-$num.log ; done'
   	sh 'sbt generateReport'
