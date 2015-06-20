@@ -1,7 +1,7 @@
 
 node('slave') {
 	git url: 'https://github.com/meteorfox/gatling-benchmarking.git'
-	archive './*'
+	archive 'build.sbt, loadbalanced_endpoints_workload.sh, project/, src/'
 	env.PATH = "${tool 'SBT'}/bin:${env.PATH}"
 	stage 'Performance'
 }
@@ -12,10 +12,10 @@ for (int i = 0; i < 2; i++) {
 		node('slave') {
 			sh 'rm -rf ./*'
 			unarchive mapping: [
-				'./project/' : '.',
-				'./src/' : '.',
-				'./build.sbt' : '.',
-				'./loadbalanced_endpoints_workload.sh' : '.'
+				'project/' : '.',
+				'src/' : '.',
+				'build.sbt' : '.',
+				'loadbalanced_endpoints_workload.sh' : '.'
 			]
 			sh "./loadbalanced_endpoints_workload.sh"
 		}
