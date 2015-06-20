@@ -44,7 +44,7 @@ node('master') {
   	  for i in `find -name "*simulation.log"`; \
   	  do num=$(( num+1 )) ; \
   	    cp $i \
-  	       target/gatling/distributed-' + nowMillis + '/simulation$num.log ;\
+  	       target/gatling/distributedresults-' + nowMillis + '/simulation$num.log ;\
   	  done'
   	sh "${cmd}"
   	sh "sbt 'generateReport distributedresults-${nowMillis}'"
